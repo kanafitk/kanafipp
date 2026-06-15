@@ -1,0 +1,32 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}Shop All - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="mb-6 text-center">
+        <h1>All Products</h1>
+        <p>Explore our full collection of premium items.</p>
+    </div>
+
+    <div class="grid grid-cols-4">
+        {% for product in products %}
+        <div class="card product-card">
+            <a href="{{ url_for('product', product_id=product.id) }}">
+                <img src="{{ product.img }}" alt="{{ product.name }}" class="product-img">
+            </a>
+            <div class="product-info">
+                <span class="product-category">{{ product.category }}</span>
+                <a href="{{ url_for('product', product_id=product.id) }}" class="product-title">{{ product.name }}</a>
+                <div class="flex items-center justify-between mt-auto">
+                    <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="margin: 0; display: inline-block;">
+                        <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;"><i class="fa-solid fa-cart-plus"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

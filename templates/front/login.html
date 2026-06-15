@@ -1,0 +1,35 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}Login - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section flex" style="justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 450px; padding: 2.5rem;">
+        <div class="text-center mb-6">
+            <h1 style="font-size: 2rem;">Welcome Back</h1>
+            <p>Sign in to your account</p>
+        </div>
+        
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="flex justify-between items-center mb-2">
+                    <label class="form-label" style="margin-bottom: 0;">Password</label>
+                    <a href="{{ url_for('forgot_password') }}" style="font-size: 0.875rem; color: var(--primary-color);">Forgot Password?</a>
+                </div>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.875rem; font-size: 1.125rem;">Sign In</button>
+        </form>
+        
+        <div class="text-center mt-6">
+            <p style="font-size: 0.875rem;">Don't have an account? <a href="{{ url_for('create_user') }}" style="color: var(--primary-color); font-weight: 600;">Create one</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

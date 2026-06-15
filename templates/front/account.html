@@ -1,0 +1,101 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}My Account - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="flex items-center justify-between mb-6">
+        <h1>My Account</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline" style="color: #ef4444; border-color: #ef4444;">Sign Out</a>
+    </div>
+    
+    <div class="grid" style="grid-template-columns: 1fr 3fr; align-items: start;">
+        <!-- Sidebar Navigation -->
+        <div class="card" style="padding: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 600; text-transform: uppercase;">
+                    {{ session.get('user_first_name', 'U')[0] }}{{ session.get('user_last_name', 'U')[0] }}
+                </div>
+                <div>
+                    <h3 style="font-size: 1.125rem;">{{ session.get('user_first_name', '') }} {{ session.get('user_last_name', '') }}</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0;">{{ session.get('user_email', '') }}</p>
+                </div>
+            </div>
+            
+            <ul style="list-style: none;">
+                <li style="margin-bottom: 0.5rem;">
+                    <a href="#" style="display: block; padding: 0.75rem 1rem; background-color: var(--bg-color); border-radius: var(--border-radius); font-weight: 500; color: var(--primary-color);">
+                        <i class="fa-solid fa-box-open" style="width: 24px;"></i> Orders
+                    </a>
+                </li>
+                <li style="margin-bottom: 0.5rem;">
+                    <a href="#" style="display: block; padding: 0.75rem 1rem; border-radius: var(--border-radius); font-weight: 500;">
+                        <i class="fa-regular fa-user" style="width: 24px;"></i> Profile Details
+                    </a>
+                </li>
+                <li style="margin-bottom: 0.5rem;">
+                    <a href="#" style="display: block; padding: 0.75rem 1rem; border-radius: var(--border-radius); font-weight: 500;">
+                        <i class="fa-regular fa-address-book" style="width: 24px;"></i> Addresses
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="display: block; padding: 0.75rem 1rem; border-radius: var(--border-radius); font-weight: 500;">
+                        <i class="fa-regular fa-credit-card" style="width: 24px;"></i> Payment Methods
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content (Orders) -->
+        <div class="card" style="padding: 2rem;">
+            <h2 class="mb-4">Recent Orders</h2>
+            
+            {% if orders %}
+                {% for order in orders %}
+                <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden; margin-bottom: 1.5rem;">
+                    <div style="background-color: var(--bg-color); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 0.875rem;">Order Placed</span>
+                            <p style="font-weight: 600; font-size: 0.95rem;">{{ order.created_at }}</p>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 0.875rem;">Total</span>
+                            <p style="font-weight: 600; font-size: 0.95rem;">${{ "%.2f"|format(order.total) }}</p>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 0.875rem;">Order #</span>
+                            <p style="font-weight: 600; font-size: 0.95rem;">ORD-{{ order.id + 10000 }}</p>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span style="display: inline-block; padding: 0.25rem 0.75rem; background-color: #dcfce7; color: #166534; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">Processed</span>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 1.5rem;">
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Shipping to: <strong>{{ order.address }}, {{ order.city }}, {{ order.zip }}</strong></p>
+                        <div class="flex items-center gap-4" style="flex-wrap: wrap;">
+                            {% for item in order.items_list %}
+                            <div style="display: flex; align-items: center; gap: 0.75rem; border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: var(--border-radius); background: white;">
+                                <img src="{{ item.img }}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                                <div>
+                                    <p style="font-weight: 600; font-size: 0.85rem; margin-bottom: 0; color: var(--text-main);">{{ item.name }}</p>
+                                    <p style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0;">Qty: {{ item.quantity }} x ${{ "%.2f"|format(item.price) }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center" style="padding: 4rem 2rem; border: 1px dashed var(--border-color); border-radius: var(--border-radius);">
+                    <i class="fa-solid fa-box-open mb-4" style="font-size: 3rem; color: var(--text-muted);"></i>
+                    <h2>No orders yet</h2>
+                    <p>When you purchase items, your order history will appear here.</p>
+                    <a href="{{ url_for('products') }}" class="btn btn-primary mt-4">Start Shopping</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

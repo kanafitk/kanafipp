@@ -1,0 +1,27 @@
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ url_for('home') }}" class="logo">LuxeShop</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('products') }}">Shop</a></li>
+            <li><a href="{{ url_for('categories') }}">Categories</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+            {% if session.get('user_id') %}
+                <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Hi, {{ session.get('user_name', 'User') }}</span>
+                <a href="{{ url_for('account') }}" title="Account"><i class="fa-solid fa-user-check"></i></a>
+                <a href="{{ url_for('logout') }}" title="Sign Out" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i></a>
+            {% else %}
+                <a href="{{ url_for('login') }}" title="Login"><i class="fa-regular fa-user"></i></a>
+            {% endif %}
+            <a href="{{ url_for('cart') }}" title="Cart" style="position: relative; display: inline-flex; align-items: center;">
+                <i class="fa-solid fa-cart-shopping"></i>
+                {% if cart_count and cart_count > 0 %}
+                <span style="position: absolute; top: -10px; right: -10px; background: var(--secondary-color); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; line-height: 1;">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</nav>
+

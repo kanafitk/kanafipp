@@ -1,0 +1,38 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}Categories - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="mb-6 text-center">
+        <h1>Shop by Category</h1>
+        <p>Find exactly what you're looking for.</p>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="flex justify-center gap-4 mb-6" style="flex-wrap: wrap;">
+        <a href="{{ url_for('products') }}" class="btn btn-outline" style="border-radius: 50px;">All</a>
+        {% for category in categories %}
+            <a href="#" class="btn btn-outline" style="border-radius: 50px;">{{ category }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-4 mt-6">
+        {% for product in products %}
+        <div class="card product-card">
+            <a href="{{ url_for('product', product_id=product.id) }}">
+                <img src="{{ product.img }}" alt="{{ product.name }}" class="product-img">
+            </a>
+            <div class="product-info">
+                <span class="product-category">{{ product.category }}</span>
+                <a href="{{ url_for('product', product_id=product.id) }}" class="product-title">{{ product.name }}</a>
+                <div class="flex items-center justify-between mt-auto">
+                    <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                    <button class="btn btn-primary" style="padding: 0.5rem 1rem;"><i class="fa-solid fa-cart-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}Checkout - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <h1 class="mb-6">Checkout</h1>
+    
+    <div class="grid" style="grid-template-columns: 2fr 1fr; align-items: start;">
+        <!-- Checkout Form -->
+        <div class="card" style="padding: 2rem;">
+            <h3 class="mb-4">Billing Details</h3>
+            <form action="{{ url_for('checkout') }}" method="POST">
+                <div class="grid grid-cols-2" style="gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="first_name" class="form-control" value="{{ session.get('user_first_name', '') }}" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" value="{{ session.get('user_last_name', '') }}" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control" value="{{ session.get('user_email', '') }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Street Address</label>
+                    <input type="text" name="address" class="form-control" placeholder="House number and street name" required>
+                </div>
+                
+                <div class="grid grid-cols-2" style="gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">City</label>
+                        <input type="text" name="city" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Postal Code</label>
+                        <input type="text" name="zip" class="form-control" required>
+                    </div>
+                </div>
+                
+                <h3 class="mb-4 mt-6">Payment Method</h3>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <input type="radio" name="payment" id="credit" value="Credit Card" checked style="accent-color: var(--primary-color); width: 18px; height: 18px;">
+                        <label for="credit" style="font-weight: 500;">Credit Card</label>
+                        <div style="margin-left: auto; display: flex; gap: 0.5rem; color: var(--text-muted); font-size: 1.5rem;">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" name="card_number" class="form-control" placeholder="0000 0000 0000 0000" required>
+                    </div>
+                    
+                    <div class="grid grid-cols-2" style="gap: 1rem; margin-bottom: 0;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="text" name="card_expiry" class="form-control" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">CVC</label>
+                            <input type="text" name="card_cvc" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mt-6" style="width: 100%; padding: 1rem; justify-content: center; font-size: 1.125rem;">Place Order</button>
+            </form>
+        </div>
+        
+        <!-- Order Review -->
+        <div class="card" style="padding: 2rem; background-color: var(--bg-color);">
+            <h3 style="margin-bottom: 1.5rem;">Your Order</h3>
+            
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="flex justify-between items-center mb-4">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <img src="{{ item.product.img }}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                        <div>
+                            <p style="font-weight: 600; font-size: 0.875rem;">{{ item.product.name }}</p>
+                            <p style="color: var(--text-muted); font-size: 0.75rem;">Qty: {{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    <span style="font-weight: 600;">${{ "%.2f"|format(item.product.price * item.quantity) }}</span>
+                </div>
+                {% endfor %}
+                
+                <div style="border-top: 1px solid var(--border-color); margin: 1rem 0;"></div>
+                
+                <div class="flex justify-between mb-2">
+                    <span style="color: var(--text-muted);">Subtotal</span>
+                    <span style="font-weight: 600;">${{ "%.2f"|format(subtotal) }}</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span style="color: var(--text-muted);">Shipping</span>
+                    <span style="font-weight: 600;">Free</span>
+                </div>
+                
+                <div style="border-top: 1px solid var(--border-color); margin: 1rem 0;"></div>
+                
+                <div class="flex justify-between">
+                    <span style="font-size: 1.125rem; font-weight: 700;">Total</span>
+                    <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">${{ "%.2f"|format(subtotal) }}</span>
+                </div>
+            {% else %}
+                <div class="text-center" style="padding: 2rem 0;">
+                    <i class="fa-solid fa-cart-shopping mb-2" style="font-size: 2rem; color: var(--text-muted);"></i>
+                    <p style="margin-bottom: 0;">Your cart is empty.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

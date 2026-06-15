@@ -1,0 +1,39 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="logo" style="margin-bottom: 1rem; font-size: 1.25rem;">LuxeShop</h4>
+                <p>Curated premium goods for the modern lifestyle. Elevate your everyday with our exclusive collections.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('products') }}">Shop All</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="{{ url_for('account') }}">My Account</a></li>
+                    <li><a href="#">Order Tracking</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Stay Connected</h4>
+                <p>Subscribe to our newsletter for exclusive offers.</p>
+                <form action="#" class="mt-4 flex gap-4">
+                    <input type="email" class="form-control" placeholder="Your email address" required style="border-radius: var(--border-radius) 0 0 var(--border-radius);">
+                    <button type="button" class="btn btn-primary" style="border-radius: 0 var(--border-radius) var(--border-radius) 0;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LuxeShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

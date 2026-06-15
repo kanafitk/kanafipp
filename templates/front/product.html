@@ -1,0 +1,54 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}{{ product.name }} - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="grid grid-cols-2 gap-4" style="align-items: start;">
+        <!-- Product Image -->
+        <div>
+            <img src="{{ product.img }}" alt="{{ product.name }}" style="width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md); object-fit: cover; aspect-ratio: 1/1;">
+        </div>
+        
+        <!-- Product Details -->
+        <div style="padding: 2rem;">
+            <p class="product-category" style="font-size: 1rem;">{{ product.category }}</p>
+            <h1 style="margin-bottom: 1rem; font-size: 2.5rem;">{{ product.name }}</h1>
+            <p style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem;">${{ "%.2f"|format(product.price) }}</p>
+            
+            <p style="font-size: 1.125rem; margin-bottom: 2rem; color: var(--text-muted);">
+                Experience premium quality with our {{ product.name }}. Designed with precision and crafted for everyday excellence, this item perfectly blends style with functionality. Elevate your collection today.
+            </p>
+            
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="width: 100%; display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; border: 1px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden; height: 48px;">
+                    <button type="button" onclick="var input = this.nextElementSibling; if(input.value > 1) input.value = parseInt(input.value) - 1;" style="padding: 0.75rem 1rem; background: white; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+            
+                    <input type="number" name="quantity" value="1" min="1"
+                        style="width: 50px; text-align: center; border: none; font-size: 1.125rem; font-weight: 600; outline: none; -moz-appearance: textfield;">
+            
+                    <button type="button" onclick="var input = this.previousElementSibling; input.value = parseInt(input.value) + 1;" style="padding: 0.75rem 1rem; background: white; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" style="flex: 1; height: 48px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                    <i class="fa-solid fa-cart-plus" style="margin-right: 0.5rem;"></i>
+                    Add to Cart
+                </button>
+            </form>
+            
+            <div style="border-top: 1px solid var(--border-color); padding-top: 2rem;">
+                <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Features</h3>
+                <ul style="list-style-position: inside; color: var(--text-muted);">
+                    <li style="margin-bottom: 0.5rem;">Premium materials and construction</li>
+                    <li style="margin-bottom: 0.5rem;">Modern, ergonomic design</li>
+                    <li style="margin-bottom: 0.5rem;">1-year manufacturer warranty</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

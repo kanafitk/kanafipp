@@ -1,0 +1,80 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}Contact Us - LuxeShop{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="text-center mb-6">
+        <h1>Contact Us</h1>
+        <p>Have a question or feedback? We'd love to hear from you.</p>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4" style="align-items: start;">
+        <!-- Contact Information -->
+        <div class="card" style="padding: 2.5rem;">
+            <h2 class="mb-4">Get in Touch</h2>
+            <p>Our dedicated support team is available to assist you with any inquiries regarding orders, products, or our services.</p>
+            
+            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(79, 70, 229, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Our Showroom</h4>
+                        <p style="margin-bottom: 0; font-size: 0.9rem;">123 Elegance Blvd, Suite 400, New York, NY 10001</p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(79, 70, 229, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Phone Number</h4>
+                        <p style="margin-bottom: 0; font-size: 0.9rem;">+1 (555) 234-5678 (Mon - Fri, 9am - 6pm EST)</p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(79, 70, 229, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Email Support</h4>
+                        <p style="margin-bottom: 0; font-size: 0.9rem;">support@luxeshop.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="card" style="padding: 2.5rem;">
+            <h2 class="mb-4">Send a Message</h2>
+            <form action="{{ url_for('contact') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control" placeholder="How can we help?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-control" rows="5" placeholder="Write your message here..." required style="resize: vertical; font-family: inherit;"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; justify-content: center; font-size: 1.125rem;">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

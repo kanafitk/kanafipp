@@ -1,0 +1,65 @@
+{% extends "front/share/base.html" %}
+
+{% block title %}LuxeShop - Premium E-Commerce{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Elevate Your Lifestyle</h1>
+        <p>Discover our curated collection of premium products designed to bring style, comfort, and innovation into your everyday life.</p>
+        <a href="{{ url_for('products') }}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">Shop the Collection</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="flex items-center justify-between mb-6">
+            <h2>Featured Products</h2>
+            <a href="{{ url_for('products') }}" class="btn btn-outline">View All <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></a>
+        </div>
+        
+        <div class="grid grid-cols-4">
+            {% for product in featured_products %}
+            <div class="card product-card">
+                <a href="{{ url_for('product', product_id=product.id) }}">
+                    <img src="{{ product.img }}" alt="{{ product.name }}" class="product-img">
+                </a>
+                <div class="product-info">
+                    <span class="product-category">{{ product.category }}</span>
+                    <a href="{{ url_for('product', product_id=product.id) }}" class="product-title">{{ product.name }}</a>
+                    <div class="flex items-center justify-between mt-auto">
+                        <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="margin: 0; display: inline-block;">
+                            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;"><i class="fa-solid fa-cart-plus"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background-color: white;">
+    <div class="container">
+        <h2 class="text-center mb-6">Why Shop With Us?</h2>
+        <div class="grid grid-cols-3 text-center">
+            <div class="card" style="padding: 2rem; border: none; box-shadow: none;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"><i class="fa-solid fa-truck-fast"></i></div>
+                <h3>Free Shipping</h3>
+                <p>On all orders over $150. Fast and reliable delivery to your doorstep.</p>
+            </div>
+            <div class="card" style="padding: 2rem; border: none; box-shadow: none;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Secure Checkout</h3>
+                <p>Your payment information is processed securely. We prioritize your privacy.</p>
+            </div>
+            <div class="card" style="padding: 2rem; border: none; box-shadow: none;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"><i class="fa-solid fa-arrow-rotate-left"></i></div>
+                <h3>Easy Returns</h3>
+                <p>30-day return policy for a full refund or exchange. No questions asked.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
