@@ -9,7 +9,7 @@
         </ul>
         <div class="nav-icons">
             {% if session.get('user_id') %}
-                <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Hi, {{ session.get('user_name', 'User') }}</span>
+                <span class="greeting-text" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Hi, {{ session.get('user_name', 'User') }}</span>
                 <a href="{{ url_for('account') }}" title="Account"><i class="fa-solid fa-user-check"></i></a>
                 <a href="{{ url_for('logout') }}" title="Sign Out" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i></a>
             {% else %}
@@ -21,7 +21,65 @@
                 <span style="position: absolute; top: -10px; right: -10px; background: var(--secondary-color); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; line-height: 1;">{{ cart_count }}</span>
                 {% endif %}
             </a>
+            <!-- Hamburger Button (visible on mobile only) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </div>
 </nav>
 
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+<div class="mobile-nav" id="mobileNav">
+    <ul>
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house" style="width: 24px;"></i> Home</a></li>
+        <li><a href="{{ url_for('products') }}"><i class="fa-solid fa-bag-shopping" style="width: 24px;"></i> Shop</a></li>
+        <li><a href="{{ url_for('categories') }}"><i class="fa-solid fa-tags" style="width: 24px;"></i> Categories</a></li>
+        <li><a href="{{ url_for('contact') }}"><i class="fa-solid fa-envelope" style="width: 24px;"></i> Contact</a></li>
+    </ul>
+    <div class="mobile-nav-divider"></div>
+    <ul>
+        {% if session.get('user_id') %}
+            <li><a href="{{ url_for('account') }}"><i class="fa-solid fa-user" style="width: 24px;"></i> My Account</a></li>
+            <li><a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping" style="width: 24px;"></i> Cart{% if cart_count and cart_count > 0 %} ({{ cart_count }}){% endif %}</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket" style="width: 24px;"></i> Sign Out</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket" style="width: 24px;"></i> Sign In</a></li>
+            <li><a href="{{ url_for('create_user') }}"><i class="fa-solid fa-user-plus" style="width: 24px;"></i> Create Account</a></li>
+            <li><a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping" style="width: 24px;"></i> Cart{% if cart_count and cart_count > 0 %} ({{ cart_count }}){% endif %}</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+<script>
+(function() {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const overlay = document.getElementById('mobileNavOverlay');
+
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileNav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+    }
+
+    function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileNav.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Close menu when a link is clicked
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+    });
+})();
+</script>
