@@ -577,9 +577,19 @@ a:hover {
     display: none;
   }
 
-  .mobile-nav,
+  /* ⚠️ កែសម្រួលត្រង់ចំណុចនេះ៖ លាក់ពួកវាសិននៅពេលធម្មតា */
+  .mobile-nav {
+    display: block; /* ទុកឱ្យវាប្រើប្រាស់ transition right: -280px របស់វា */
+  }
   .mobile-nav-overlay {
+    display: none; /* បិទកុំឱ្យវាមកបាំងអេក្រង់ */
+    opacity: 0;
+  }
+
+  /* 💡 បន្ថែមលក្ខខណ្ឌនេះ៖ ឱ្យបង្ហាញ overlay តែពេល menu active ប៉ុណ្ណោះ */
+  .mobile-nav-overlay.active {
     display: block;
+    opacity: 1;
   }
 
   .navbar .container {
@@ -691,8 +701,12 @@ a:hover {
 /* ============================================
    RESPONSIVE: SMALL MOBILE (max-width: 480px)
    ============================================ */
+
+/* ============================================
+   RESPONSIVE: SMALL MOBILE (max-width: 480px)
+   ============================================ */
 @media (max-width: 480px) {
-  h1 { font-size: 1.5rem; }
+  h1 { font-size: 1.75rem; }
 
   .hero h1 {
     font-size: 1.75rem;
@@ -704,119 +718,103 @@ a:hover {
   }
 
   .hero {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
 
   .container {
-    padding: 0 0.75rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 10; /* ធានាថា Content ស្ថិតនៅស្រទាប់ខាងលើ */
   }
 
+  /* រៀបចំការបង្ហាញកាតផលិតផលឱ្យរត់ចុះក្រោមម្តងមួយៗ */
   .grid-cols-2,
   .grid-cols-3,
   .grid-cols-4 {
-    grid-template-columns: 1fr;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+
+  /* កែសម្រួលកាតផលិតផលឱ្យមានទំហំពេញ និងអាចចុចបាន */
+  .product-card {
+    width: 100%;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto; /* បើកសិទ្ធិឱ្យចុចបានដាច់ខាត */
   }
 
   .product-img {
-    height: 180px;
+    height: auto;
+    min-height: 250px; /* ធានាថារូបភាពមិនរួញតូចពេក */
+    object-fit: cover;
   }
 
-  .cart-item img {
-    width: 60px;
-    height: 60px;
+  /* រក្សាទុកប៊ូតុង View All ឱ្យនៅជួរជាមួយ Featured Products */
+  .flex.items-center.justify-between.mb-6 {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
   }
 
   .btn {
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
+    position: relative;
+    z-index: 20; /* ឱ្យប៊ូតុងនៅខាងលើគេបង្អស់ */
   }
 }
-.product-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-}
-
-.product-image img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-}
-
-.cart-form {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.quantity-box {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    height: 48px;
-}
-
-.quantity-box button {
-    padding: 0.75rem 1rem;
-    background: white;
-    border: none;
-    cursor: pointer;
-}
-
-.quantity-box input {
-    width: 60px;
-    text-align: center;
-    border: none;
-    outline: none;
-    font-size: 1.125rem;
-    font-weight: 600;
-    -moz-appearance: textfield;
-}
-
-.product-info {
-    padding: 2rem;
-}
-
-@media (max-width: 992px) {
-    .product-detail-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .product-info {
-        padding: 1rem 0;
-    }
-}
-
+/* ============================================
+   ការកែសម្រួលសម្រាប់ទំព័រលម្អិតផលិតផល (Product Detail)
+   ============================================ */
 @media (max-width: 768px) {
 
-    .product-info h1 {
-        font-size: 2rem !important;
-    }
+  /* បង្ខំឱ្យប្លង់រូបភាព និងព័ត៌មានលម្អិតធ្លាក់ចុះមកក្រោម (រត់ជួរឈរទោល) */
+  .grid.grid-cols-2 {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
 
-    .cart-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  /* កាត់បន្ថយការដកឃ្លា (Padding) ព័ត៌មានលម្អិតឱ្យសមល្មមនឹងអេក្រង់ទូរស័ព្ទ */
+  .grid.grid-cols-2 > div[style*="padding: 2rem;"] {
+    padding: 1rem 0 !important;
+  }
 
-    .quantity-box {
-        width: 100%;
-        justify-content: center;
-    }
+  /* ពង្រីកអក្សរចំណងជើងផលិតផលឱ្យសមរម្យលើទូរស័ព្ទ */
+  .grid.grid-cols-2 h1 {
+    font-size: 1.8rem !important;
+  }
 
-    .cart-form .btn {
-        width: 100%;
-    }
+  /* រៀបចំ Form ប៊ូតុង Add to Cart និងបង្កើន Z-Index ធានាថាចុចដើរ */
+  .grid.grid-cols-2 form {
+    flex-wrap: wrap; /* បើអេក្រង់តូចខ្លាំង ឱ្យវាធ្លាក់ចុះក្រោម */
+    position: relative;
+    z-index: 10;
+  }
 
-    .product-info {
-        padding: 0;
-    }
+  /* ធានាថាប៊ូតុងបូកដក និងប៊ូតុង Add to Cart ងាយស្រួលចុច */
+  .grid.grid-cols-2 form button,
+  .grid.grid-cols-2 form input {
+    pointer-events: auto !important; /* បើកសិទ្ធិឱ្យចុចបានដាច់ខាត */
+  }
+}
+
+@media (max-width: 480px) {
+  /* សម្រាប់ទូរស័ព្ទតូចខ្លាំង បង្ខំឱ្យប៊ូតុង Add to Cart រត់ពេញទទឹងអេក្រង់តែម្តង */
+  .grid.grid-cols-2 form {
+    flex-direction: column;
+    align-items: stretch !important;
+    height: auto !important;
+  }
+
+  .grid.grid-cols-2 form > div[style*="display: flex;"] {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .grid.grid-cols-2 form > div[style*="display: flex;"] input {
+    flex: 1;
+  }
 }
