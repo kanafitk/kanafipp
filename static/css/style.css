@@ -818,3 +818,132 @@ a:hover {
     flex: 1;
   }
 }
+/* ============================================
+   ការកែសម្រួលសម្រាប់ទំព័រ Shopping Cart
+   ============================================ */
+
+/* សម្រាប់អេក្រង់ Tablet និងទូរស័ព្ទ (ក្រោម 1024px និង 768px) */
+@media (max-width: 1024px) {
+  .layout-cart {
+    display: flex !important;
+    flex-direction: column !important; /* ឱ្យផ្នែកសរុបលុយធ្លាក់មកក្រោម */
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* កែសម្រួលកាតទំនិញក្នុងកន្ត្រកឱ្យធ្លាក់ជាជួរឈរពេលអេក្រង់តូច */
+  .card.flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  .card.flex img {
+    margin-right: 0 !important;
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  /* រៀបចំប៊ូតុង បូក-ដក និងប៊ូតុងលុប ឱ្យនៅទទឹងស្មើគ្នា និងងាយស្រួលចុច */
+  .card.flex > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* បើកសិទ្ធិឱ្យ Form និងប៊ូតុងទាំងអស់អាចទទួលបញ្ជាចុចបាន (Pointer events) */
+  .layout-cart form,
+  .layout-cart button,
+  .layout-cart a.btn {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* សម្រាប់អេក្រង់ទូរស័ព្ទតូចខ្លាំង (ក្រោម 480px) */
+@media (max-width: 480px) {
+  .card.flex {
+    padding: 1rem !important;
+  }
+
+  /* ពង្រីកប៊ូតុង Checkout ឱ្យធំស្រួលចុចចំលើទូរស័ព្ទ */
+  .layout-cart .btn-primary {
+    padding: 0.875rem !important;
+    font-size: 1rem !important;
+  }
+}
+/* ============================================
+   ការកែសម្រួលសម្រាប់ទំព័រ My Account
+   ============================================ */
+
+/* សម្រាប់អេក្រង់ Tablet និងទូរស័ព្ទ (ក្រោម 1024px) */
+@media (max-width: 1024px) {
+  .layout-account {
+    display: flex !important;
+    flex-direction: column !important; /* ឱ្យ Sidebar និង Content ធ្លាក់មកបន្តកន្ទុយគ្នា */
+    gap: 2rem;
+  }
+
+  .layout-account > div {
+    width: 100% !important; /* ពង្រីកឱ្យពេញទទឹងអេក្រង់ស្មើគ្នា */
+  }
+}
+
+@media (max-width: 768px) {
+  /* កែសម្រួលក្បាលទំព័រ My Account និងប៊ូតុង Sign Out មិនឱ្យជាន់គ្នា */
+  .container.section .flex.items-center.justify-between.mb-6 {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
+  }
+
+  /* កែសម្រួលតារាងព័ត៌មាន Order ឱ្យធ្លាក់ចុះក្រោមស្អាតមិនប្រជ្រៀតគ្នា */
+  .layout-account div[style*="background-color: var(--bg-color);"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+
+  .layout-account div[style*="margin-left: auto;"] {
+    margin-left: 0 !important; /* រុញ Badge "Processed" មកនៅខាងឆ្វេងវិញ */
+    padding-top: 0.5rem;
+  }
+
+  /* ធានាថា រាល់តំណភ្ជាប់ លីង និងប៊ូតុងទាំងអស់អាចចុចបានដាច់ខាត */
+  .layout-account a,
+  .layout-account button,
+  .btn-outline {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* សម្រាប់អេក្រង់ទូរស័ព្ទតូចខ្លាំង (ក្រោម 480px) */
+@media (max-width: 480px) {
+  .layout-account div[style*="padding: 2rem;"] {
+    padding: 1.5rem 1rem !important; /* បន្ថយ padding ខាងក្នុងកុំឱ្យហៀរអេក្រង់ */
+  }
+
+  .layout-account h1 {
+    font-size: 1.8rem !important;
+  }
+
+  /* ធ្វើឱ្យបញ្ជីឈ្មោះទំនិញដែលបានទិញរួច រត់ពេញទទឹងទូរស័ព្ទ */
+  .layout-account .flex.items-center.gap-4 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: relative !important;
+  }
+
+  .layout-account .flex.items-center.gap-4 > div {
+    width: 100% !important;
+  }
+}
