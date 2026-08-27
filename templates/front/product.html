@@ -17,7 +17,7 @@
             <p style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem;">${{ "%.2f"|format(product.price) }}</p>
 
             <p style="font-size: 1.125rem; margin-bottom: 2rem; color: var(--text-muted);">
-                Experience premium quality with our {{ product.name }}. Designed with precision and crafted for everyday excellence, this item perfectly blends style with functionality. Elevate your collection today.
+                {{ product.description if product.description else 'Experience premium quality with our ' ~ product.name ~ '. Designed with precision and crafted for everyday excellence, this item perfectly blends style with functionality. Elevate your collection today.' }}
             </p>
 
             <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="width: 100%; display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="bg-light">
+
+<div class="container-fluid">
+    <div class="row min-vh-100">
+
+        <!-- Sidebar Navigation -->
+        <aside class="col-md-3 col-lg-2 bg-dark text-white p-0">
+
+            <!-- Brand -->
+            <div class="p-4 border-bottom">
+                <h4 class="mb-0">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    AdminPanel
+                </h4>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <ul class="nav flex-column p-3">
+
+                <li class="nav-item mb-2">
+                    <a href="/admin"
+                       class="nav-link active bg-primary text-white rounded">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a href="/admin/products" class="nav-link text-white">
+                        <i class="bi bi-box-seam me-2"></i>
+                        Products
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a href="/admin/users" class="nav-link text-white">
+                        <i class="bi bi-person-fill me-2"></i>
+                        Users
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a href="/admin/customers" class="nav-link text-white">
+                        <i class="bi bi-people me-2"></i>
+                        Customers
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a href="/admin/orders" class="nav-link text-white">
+                        <i class="bi bi-cart3 me-2"></i>
+                        Orders
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2 mt-4 border-top pt-2">
+                    <a href="{{ url_for('admin_logout') }}" class="nav-link text-danger">
+                        <i class="bi bi-box-arrow-left me-2"></i>
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-md-9 col-lg-10 p-4">
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{% if category == 'error' %}danger{% else %}{{ category }}{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Header -->
+            <div class="mb-4">
+
+                <h1 class="fw-bold mb-1">
+                    Dashboard Overview
+                </h1>
+
+                <p class="text-muted">
+                    Here is what's happening with your store today.
+                </p>
+
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row g-4 mb-4">
+
+                <!-- Total Products -->
+                <div class="col-sm-6 col-xl-3">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <p class="text-muted mb-1">
+                                        Total Products
+                                    </p>
+
+                                    <h2 class="fw-bold mb-2">
+                                        {{ total_products | default(4) }}
+                                    </h2>
+
+                                    <small class="text-success">
+                                        <i class="bi bi-box-seam"></i>
+                                        Live on store
+                                    </small>
+                                </div>
+
+                                <div class="bg-primary text-white rounded-circle p-3">
+                                    <i class="bi bi-box-seam fs-4"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Total Customers -->
+                <div class="col-sm-6 col-xl-3">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <p class="text-muted mb-1">
+                                        Total Customers
+                                    </p>
+
+                                    <h2 class="fw-bold mb-2">
+                                        {{ total_customers | default(3) }}
+                                    </h2>
+
+                                    <small class="text-success">
+                                        <i class="bi bi-people"></i>
+                                        Active buyers
+                                    </small>
+                                </div>
+
+                                <div class="bg-success text-white rounded-circle p-3">
+                                    <i class="bi bi-people fs-4"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Total Orders -->
+                <div class="col-sm-6 col-xl-3">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <p class="text-muted mb-1">
+                                        Total Orders
+                                    </p>
+
+                                    <h2 class="fw-bold mb-2">
+                                        {{ total_orders | default(3) }}
+                                    </h2>
+
+                                    <small class="text-success">
+                                        <i class="bi bi-cart3"></i>
+                                        Received orders
+                                    </small>
+                                </div>
+
+                                <div class="bg-warning text-dark rounded-circle p-3">
+                                    <i class="bi bi-cart3 fs-4"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Total Revenue -->
+                <div class="col-sm-6 col-xl-3">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <p class="text-muted mb-1">
+                                        Total Revenue
+                                    </p>
+
+                                    <h2 class="fw-bold mb-2">
+                                        ${{ total_revenue | default('265.00') }}
+                                    </h2>
+
+                                    <small class="text-success">
+                                        <i class="bi bi-cash-coin"></i>
+                                        Net Earnings
+                                    </small>
+                                </div>
+
+                                <div class="bg-success text-white rounded-circle p-3">
+                                    <i class="bi bi-cash-coin fs-4"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Recent Orders & Sales Chart -->
+            <div class="row g-4">
+
+                <!-- Recent Orders -->
+                <div class="col-lg-7">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+
+                            <h5 class="mb-0">
+                                <i class="bi bi-cart-check text-primary"></i>
+                                Recent Orders
+                            </h5>
+
+                            <a href="/admin/orders"
+                               class="text-primary text-decoration-none">
+                                View All
+                            </a>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-hover align-middle">
+
+                                    <thead class="table-dark">
+
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer Name</th>
+                                            <th>Total Price</th>
+                                            <th>Status</th>
+                                            <th>Order Date</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for order in recent_orders %}
+
+                                        <tr>
+
+                                            <td>#{{ order.id }}</td>
+
+                                            <td>{{ order.customer_name }}</td>
+
+                                            <td>${{ order.total }}</td>
+
+                                            <td>
+
+                                                {% if order.status == 'Pending' %}
+
+                                                <span class="badge bg-warning text-dark">
+                                                    Pending
+                                                </span>
+
+                                                {% elif order.status == 'Completed' %}
+
+                                                <span class="badge bg-success">
+                                                    Completed
+                                                </span>
+
+                                                {% elif order.status == 'Cancelled' %}
+
+                                                <span class="badge bg-danger">
+                                                    Cancelled
+                                                </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+                                            <td>{{ order.created_at }}</td>
+
+                                        </tr>
+
+                                        {% else %}
+
+                                        <tr>
+
+                                            <td colspan="5"
+                                                class="text-center text-muted py-4">
+
+                                                No recent orders found.
+
+                                            </td>
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sales Chart -->
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0">
+                                <i class="bi bi-bar-chart-fill text-primary"></i>
+                                Sales Chart
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                             <!-- date total-->
+                            <div class="d-flex align-items-end justify-content-around"
+                                 style="height: 280px;">
+                                <!-- Monday -->
+                                <div class="text-center">
+                                    <div class="bg-primary rounded-top"
+                                         style="height: 100px; width: 35px;">
+                                        <small class="text-white">
+                                            $40
+                                        </small>
+                                    </div>
+                                    <small class="text-muted">Mon</small>
+                                </div>
+                                <!-- Tuesday -->
+                                <div class="text-center">
+                                    <div class="bg-primary rounded-top"
+                                         style="height: 150px; width: 35px;">
+                                        <small class="text-white">
+                                            $60
+                                        </small>
+                                    </div>
+                                    <small class="text-muted">Tue</small>
+                                </div>
+                                <!-- Wednesday -->
+                                <div class="text-center">
+                                    <div class="bg-primary rounded-top"
+                                         style="height: 210px; width: 35px;">
+                                        <small class="text-white">
+                                            $85
+                                        </small>
+                                    </div>
+                                    <small class="text-muted">Wed</small>
+                                </div>
+                                <!-- Thursday -->
+                                <div class="text-center">
+
+                                    <div class="bg-primary rounded-top"
+                                         style="height: 125px; width: 35px;">
+
+                                        <small class="text-white">
+                                            $50
+                                        </small>
+                                    </div>
+                                    <small class="text-muted">Thu</small>
+                                </div>
+                                <!-- Friday -->
+                                <div class="text-center">
+                                    <div class="bg-primary rounded-top"
+                                         style="height: 235px; width: 35px;">
+                                        <small class="text-white">
+                                            $95
+                                        </small>
+                                    </div>
+                                    <small class="text-muted">Fri</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
